@@ -6,6 +6,10 @@ authors = ["konstantin <konstantin.dudersky@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+treepoem = "^3.13.0"
+PyYAML = "^6.0"
+colorama = "^0.4.4"
+tqdm = "^4.62.3"
 
 [tool.poetry.dev-dependencies]
 
