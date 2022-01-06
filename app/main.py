@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 from logging.handlers import RotatingFileHandler
 
 import treepoem
@@ -29,11 +30,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-#
-os.makedirs('output', exist_ok=True)
-
 # colorama
 init()
+
+# очистка папки
+try:
+    shutil.rmtree('output')
+    os.makedirs('output', exist_ok=True)
+except FileNotFoundError:
+    pass
+    os.makedirs('output', exist_ok=True)
 
 # читаем файл с настройками
 try:
