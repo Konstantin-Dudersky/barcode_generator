@@ -8,7 +8,7 @@ import yaml
 from colorama import Fore, init
 from tqdm import tqdm
 
-import app.config
+import config
 
 # logger global setup
 os.makedirs('logs', exist_ok=True)
@@ -44,9 +44,9 @@ except FileNotFoundError:
 # читаем файл с настройками
 try:
     with open('config.yaml') as stream:
-        config = app.config.Config(**yaml.safe_load(stream))
+        config_file = config.Config(**yaml.safe_load(stream))
         logger.info('config file read successfully')
-        print(f"Файл конфигурации прочитан, генерируем код {config.barcode_type}")
+        print(f"Файл конфигурации прочитан, генерируем код {config_file.barcode_type}")
 except FileNotFoundError:
     logging.exception('error reading config.yaml file')
     print(Fore.RED + "Ошибка чтения файла конфигурации config.yaml")
@@ -72,8 +72,8 @@ for code in tqdm(codes):
     options = {}
 
     image = treepoem.generate_barcode(
-        barcode_type=config.barcode_type,
-        options=config.options,
+        barcode_type=config_file.barcode_type,
+        options=config_file.options,
         data=_code,
 
     )
