@@ -5,12 +5,16 @@ from logging.handlers import RotatingFileHandler
 
 import treepoem
 import yaml
+from PIL import Image
 from colorama import Fore, init
+from reportlab.pdfgen import canvas
 from tqdm import tqdm
 
 import config
+from draw_images import DrawImages
 
 # logger global setup
+
 os.makedirs('logs', exist_ok=True)
 logging.basicConfig(
     format='%(asctime)s | %(levelname)s | %(name)s:%(lineno)d - %(funcName)s | %(message)s',
@@ -79,6 +83,20 @@ for code in tqdm(codes):
     )
     image.convert("1").save(f"output/{_code}.png")
 
-print(Fore.GREEN + "Генерация штрих-кодов завершена")
+# создаем pdf
+cvs = canvas.Canvas("output/output.pdf")
+draw_images = DrawImages(
+    x_init_offset=20,
+    y_init_offset=20,
+    scale_factor=0.7,
+    space_between=20,
+)
+for f in os.listdir('output'):
+    draw_images.draw_image(
+        cvs=cvs,
+        image=Image.open(f'output/{f}'),
+    )
+cvs.showPage()
+cvs.save()
 
-# "(01)04810729011067(21)2Pt8IuIu(93)EwYR",
+print(Fore.GREEN + "Генерация штрих-кодов завершена")

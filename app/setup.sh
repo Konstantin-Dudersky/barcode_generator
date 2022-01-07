@@ -10,7 +10,7 @@ sudo apt -y upgrade
 
 echo
 echo "-----> Install software:"
-sudo apt -y install ghostscript
+sudo apt -y install ghostscript curl
 
 echo
 echo "-----> Install poetry:"
