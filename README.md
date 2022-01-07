@@ -8,7 +8,7 @@
 
 Ввести командной строке
 
-    wget https://github.com/Konstantin-Dudersky/barcode_generator/releases/latest/download/setup.sh && chmod +x setup.sh && ./setup.sh && rm setup.sh
+    wget https://github.com/Konstantin-Dudersky/barcode_generator/blob/master/app/setup.sh && chmod +x setup.sh && ./setup.sh && rm setup.sh
 
 При работе скрипта в системе установятся [ghostscript](https://www.ghostscript.com/) и [poetry](https://python-poetry.org/).
 
