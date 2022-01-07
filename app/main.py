@@ -51,7 +51,7 @@ try:
         config_file = config.Config(**yaml.safe_load(stream))
         logger.info('config file read successfully')
         print(
-            f"Файл конфигурации прочитан,"
+            f"Файл конфигурации прочитан, "
             f"генерируем код {config_file.barcode_type}"
             )
 except FileNotFoundError:
