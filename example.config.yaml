@@ -1,3 +1,9 @@
+# параметры штрих-кода
+# подробнее - https://github.com/bwipp/postscriptbarcode/wiki/Symbologies-Reference
 barcode_type: gs1datamatrix
 options:
   version: 22x22
+
+# параметры pdf
+pdf_scale_factor: 1.0 # масштаб изображений
+pdf_space_between: 20 # расстояние между изображениями, в пикселях

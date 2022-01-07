@@ -50,7 +50,10 @@ try:
     with open('config.yaml') as stream:
         config_file = config.Config(**yaml.safe_load(stream))
         logger.info('config file read successfully')
-        print(f"Файл конфигурации прочитан, генерируем код {config_file.barcode_type}")
+        print(
+            f"Файл конфигурации прочитан,"
+            f"генерируем код {config_file.barcode_type}"
+            )
 except FileNotFoundError:
     logging.exception('error reading config.yaml file')
     print(Fore.RED + "Ошибка чтения файла конфигурации config.yaml")
@@ -88,8 +91,8 @@ cvs = canvas.Canvas("output/output.pdf")
 draw_images = DrawImages(
     x_init_offset=20,
     y_init_offset=20,
-    scale_factor=0.7,
-    space_between=20,
+    scale_factor=config_file.pdf_scale_factor,
+    space_between=config_file.pdf_space_between,
 )
 for f in os.listdir('output'):
     draw_images.draw_image(
