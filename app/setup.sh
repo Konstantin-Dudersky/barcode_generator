@@ -14,6 +14,7 @@ sudo apt -y install ghostscript curl
 
 echo
 echo "-----> Install poetry:"
+sudo apt -y install python3-distutils
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
 # shellcheck disable=SC1090
 source ~/.poetry/env
@@ -27,7 +28,7 @@ tar -xf master --strip-components 1 -C barcode_generator
 rm master
 
 echo
-echo "-----> Install poetry:"
+echo "-----> Install packages:"
 cd barcode_generator || exit
 poetry install
 cd ..
@@ -42,3 +43,6 @@ cd ..
 echo
 echo "-----> Make executable:"
 chmod +x barcode_generator/start.sh
+
+echo
+echo "-----> Installation complete!"
