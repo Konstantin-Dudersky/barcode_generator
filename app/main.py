@@ -1,3 +1,5 @@
+"""Main script."""
+
 import logging
 import os
 import shutil
@@ -14,10 +16,12 @@ import config
 from draw_images import DrawImages
 
 # logger global setup
-
 os.makedirs('logs', exist_ok=True)
 logging.basicConfig(
-    format='%(asctime)s | %(levelname)s | %(name)s:%(lineno)d - %(funcName)s | %(message)s',
+    format=(
+        '%(asctime)s | %(levelname)s '
+        '| %(name)s:%(lineno)d - %(funcName)s | %(message)s'
+    ),
     level=logging.INFO,
     handlers=[
         RotatingFileHandler(
@@ -27,8 +31,8 @@ logging.basicConfig(
             backupCount=2,
             encoding=None,
             delay=False,
-        )
-    ]
+        ),
+    ],
 )
 # logger local setup
 logger = logging.getLogger(__name__)
@@ -42,7 +46,6 @@ try:
     shutil.rmtree('output')
     os.makedirs('output', exist_ok=True)
 except FileNotFoundError:
-    pass
     os.makedirs('output', exist_ok=True)
 
 # читаем файл с настройками
@@ -51,12 +54,12 @@ try:
         config_file = config.Config(**yaml.safe_load(stream))
         logger.info('config file read successfully')
         print(
-            f"Файл конфигурации прочитан, "
-            f"генерируем код {config_file.barcode_type}"
-            )
+            f'Файл конфигурации прочитан, '
+            f'генерируем код {config_file.barcode_type}',
+        )
 except FileNotFoundError:
     logging.exception('error reading config.yaml file')
-    print(Fore.RED + "Ошибка чтения файла конфигурации config.yaml")
+    print(Fore.RED + 'Ошибка чтения файла конфигурации config.yaml')
     exit(1)
 
 # читаем файл с кодами
@@ -66,10 +69,10 @@ try:
     with open('input.csv') as stream:
         codes = stream.readlines()
         logger.info('input file read successfully')
-        print(f"Файл с кодами прочитан, в файле {len(codes)} кодов")
+        print(f'Файл с кодами прочитан, в файле {len(codes)} кодов')
 except FileNotFoundError:
     logging.exception('error reading input.csv file')
-    print(Fore.RED + "Ошибка чтения файла с кодами input.csv")
+    print(Fore.RED + 'Ошибка чтения файла с кодами input.csv')
     exit(1)
 
 # генерируем штрих-коды
@@ -84,22 +87,22 @@ for code in tqdm(codes):
         data=_code,
 
     )
-    image.convert("1").save(f"output/{_code}.png")
+    image.convert('1').save(f'output/{_code}.png')
 
 # создаем pdf
-cvs = canvas.Canvas("output/output.pdf")
+cvs = canvas.Canvas('output/output.pdf')
 draw_images = DrawImages(
     x_init_offset=20,
     y_init_offset=20,
     scale_factor=config_file.pdf_scale_factor,
     space_between=config_file.pdf_space_between,
 )
-for f in os.listdir('output'):
+for image_file in os.listdir('output'):
     draw_images.draw_image(
         cvs=cvs,
-        image=Image.open(f'output/{f}'),
+        image=Image.open(f'output/{image_file}'),
     )
 cvs.showPage()
 cvs.save()
 
-print(Fore.GREEN + "Генерация штрих-кодов завершена")
+print(Fore.GREEN + 'Генерация штрих-кодов завершена')

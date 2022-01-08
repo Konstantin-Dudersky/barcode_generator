@@ -1,8 +1,12 @@
+"""Класс для хранения настроек."""
+
 from dataclasses import dataclass
 
 
 @dataclass
 class Config:
+    """Класс для хранения настроек."""
+
     barcode_type: str
     options: dict
 

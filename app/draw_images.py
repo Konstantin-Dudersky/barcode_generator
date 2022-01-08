@@ -1,16 +1,21 @@
+"""Класс для размещения изображений на листе A4 по строкам."""
+
 from PIL import Image
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
 
 class DrawImages:
+    """Класс для размещения изображений на листе A4 по строкам."""
+
     def __init__(
-        self,
+        self: 'DrawImages',
         x_init_offset: int,
         y_init_offset: int,
         scale_factor: float,
         space_between: int,
-    ):
+    ) -> None:
+        """Create object for inserting images."""
         self.x_init_offset = x_init_offset
         self.y_init_offset = y_init_offset
         self.scale_factor = scale_factor
@@ -20,25 +25,36 @@ class DrawImages:
         self.y = self.y_init_offset
         self.h_max = 0
 
-    def draw_image(self, cvs: canvas, image: Image):
-        w = image.width * self.scale_factor
-        h = image.height * self.scale_factor
+    def draw_image(self: 'DrawImages', cvs: canvas, image: Image) -> None:
+        """Метод для вставки изображений на canvas."""
+        width = image.width * self.scale_factor
+        height = image.height * self.scale_factor
 
-        self.h_max = max(self.h_max, h)
+        self.h_max = max(self.h_max, height)
 
-        self.check_if_new_row(cvs, w)
+        self.move_to_new_row(cvs, width)
 
         cvs.drawImage(
             ImageReader(image),
             x=self.x,
             y=self.y,
-            width=w,
-            height=h,
+            width=width,
+            height=height,
         )
 
-        self.x += w + self.space_between
+        self.x += width + self.space_between
 
-    def check_if_new_row(self, cvs: canvas, image_width):
+    def move_to_new_row(
+        self: 'DrawImages',
+        cvs: canvas,
+        image_width: float,
+    ) -> None:
+        """
+        Проверяем, помещается ли новое изображение в строке.
+
+        Если не помещается, переносим на новую строку.
+        """
+        # noinspection PyProtectedMember
         cvs_width, cvs_height = cvs._pagesize
 
         if self.x + image_width + self.x_init_offset > cvs_width:

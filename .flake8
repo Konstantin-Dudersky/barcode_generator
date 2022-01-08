@@ -1,0 +1,4 @@
+[flake8]
+per-file-ignores =
+    app/main.py:T001
+max-complexity = 10
